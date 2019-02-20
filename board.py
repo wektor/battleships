@@ -39,6 +39,11 @@ class Board:
         return self.ships_left == 0
 
     def validate_candidate(self, ship_candidate):
+        for coord in ship_candidate:
+            x, y = coord
+            if not validate_coordinates(x, y):
+                print(f'Invalid coordinates {coord}')
+                return
         if not self.board.intersection(ship_candidate):  # sections of new shiop don't overlap on the existing ones
             self.ships.append(ship_candidate)
             print(self.board)
@@ -61,6 +66,9 @@ class Board:
         return self.validate_candidate(ship_candidate)
 
     def place_ship(self, size):
+        if size > BOARD_SIZE:
+            print(f'Ship size({size}) cannot be bigger than board({BOARD_SIZE})')
+            return
         while True:
             orientation = randint(0, 1)
             if orientation == 0:
